@@ -5,10 +5,20 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-
+const mongoose = require('mongoose');
 const index = require('./routes/index')
 const users = require('./routes/users')
+ mongoose.connect("mongodb://45.32.40.126:27017/koa")
 
+  // 连接错误
+  mongoose.connection.on('error', error => {
+    console.log('数据库连接失败!', error);
+  });
+
+  // 连接成功
+  mongoose.connection.once('open', () => {
+    console.log('数据库连接成功!');
+  });
 // error handler
 onerror(app)
 
